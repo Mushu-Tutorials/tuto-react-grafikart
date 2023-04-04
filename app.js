@@ -22,9 +22,9 @@ class Welcome extends React.Component {
 
 function Home () {
   return <div>
-    <Welcome name="John" />
+    <Welcome name="John">Bonjour la maison de Jean</Welcome>
     <Welcome name="Bob" />
   </div>
 }
 
-ReactDOM.render(<Welcome name="Jean">Bonjour tout le monde</Welcome>, document.querySelector('#app'))
+ReactDOM.render(<Home />, document.querySelector('#app'))
