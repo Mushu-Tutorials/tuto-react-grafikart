@@ -1,14 +1,14 @@
 let n = 0
 
+function numberFormat(n) {
+  return n.toString().padStart(2, '0')
+}
 function render() {
-  const title = React.createElement('h1', {},
-    'Bonjour tout le monde ',
-    React.createElement('span', {}, n)
-  )
-
+  const title = <h1>
+    Bonjour tout le monde <span>{n % 2 ? numberFormat(n) : null}</span>
+  </h1>
   ReactDOM.render(title, document.querySelector('#app'))
 }
-
 
 render()
 
