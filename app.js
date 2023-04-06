@@ -49,8 +49,6 @@ class Clock extends React.Component {
 class Incrementer extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props.start)
-    console.log(this.props.start)
 
     this.state = { n: props.start, m: props.step }
     this.timer = null
@@ -63,6 +61,7 @@ class Incrementer extends React.Component {
   componentWillUnmount() {
     window.clearInterval(this.timer)
   }
+
   increment() {
     this.setState(function (state, props) {
       return { n: state.n + state.m }
@@ -81,11 +80,34 @@ Incrementer.defaultProps = {
   step: 1
 }
 
+class ManuelIncrement extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { n: 0, m: props.step }
+  }
+
+  manualIncrement(e) {
+    console.log(e)
+    e.preventDefault()
+
+    this.setState(function (state, props) {
+      return { n: state.n + 1 }
+    })
+  }
+
+  render() {
+    return <div>
+      Manual Increment: {this.state.n} <button onClick={this.manualIncrement.bind(this)}>Increment</button>
+    </div>
+  }
+}
+
 function Home() {
   return <div>
     <Welcome name="John">Bonjour la maison de Jean</Welcome>
     <Welcome name="Bob" />
     <Clock />
+    <ManuelIncrement />
     <Incrementer start={10} />
     <Incrementer start={100} step={10} />
   </div>
