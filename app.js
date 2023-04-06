@@ -50,27 +50,58 @@ class Incrementer extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = { n: props.start, m: props.step }
-    this.timer = null
+    this.state = { n: props.start, m: props.step, timer: null }
+    this.toggle = this.toggle.bind(this)
+    this.reset = this.reset.bind(this)
   }
 
   componentDidMount() {
-    this.timer = window.setInterval(this.increment.bind(this), 1000)
+    this.play()
   }
   // componentDidUpdate() { }
   componentWillUnmount() {
-    window.clearInterval(this.timer)
+    window.clearInterval(this.state.timer)
   }
 
   increment() {
-    this.setState(function (state, props) {
-      return { n: state.n + state.m }
+    this.setState((state, props) => ({ n: state.n + state.m }))
+  }
+
+  pause() {
+    window.clearInterval(this.state.timer)
+    this.setState({
+      timer: null
     })
+  }
+
+  play() {
+    window.clearInterval(this.state.timer)
+    this.setState({
+      timer: this.timer = window.setInterval(this.increment.bind(this), 1000)
+    })
+  }
+
+  toggle() {
+    return this.state.timer ? this.pause() : this.play()
+  }
+
+  label() {
+    return this.state.timer ? 'Stop' : 'Play'
+  }
+
+  reset() {
+    this.pause()
+    this.play()
+    this.setState((state, props) => ({ n: props.start }))
+    // window.clearInterval(this.state.timer)
+    // return this.state.timer = this.reset
   }
 
   render() {
     return <div>
       Value: {this.state.n}
+      <button onClick={this.toggle}>{this.label()}</button>
+      <button onClick={this.reset}>Reset</button>
     </div>
   }
 }
@@ -108,8 +139,7 @@ function Home() {
     <Welcome name="Bob" />
     <Clock />
     <ManuelIncrement />
-    <Incrementer start={10} />
-    <Incrementer start={100} step={10} />
+    <Incrementer />
   </div>
 }
 
